@@ -138,7 +138,7 @@ const ALL_MATCHES = [
     scoreHome: 4,
     scoreAway: 3,
     year: 2025,
-    image: "https://www.sportal.it/wp-content/uploads/2025/09/marcus_thuram_khephren_thuram-6.webphttps://wips.plug.it/cips/sport.virgilio.it/cms/2025/09/juventus-inter-risata-marcus-thuram.jpg",
+    image: "https://static.sky.it/editorialimages/d4d3001b6fdeadb92b0741d30473f56406a45809/skysport/it/calcio/serie-a/partite/2025/giornata-3/juventus-inter/live/content/getty_adzic_gol_juventus_inter.jpg",
     imageAlt: "Serie A 2025 Juventus vs Inter"
   },
   {
