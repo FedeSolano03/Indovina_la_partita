@@ -205,7 +205,7 @@ function submitGuess() {
 
   const parsed = parseScore(scoreRaw);
   if (!parsed) { shakeInput('inputScore', t('errScore')); return; }
-  if (isNaN(yearRaw) || yearRaw < 1950 || yearRaw > 2025) { shakeInput('inputYear', t('errYear')); return; }
+  if (isNaN(yearRaw) || yearRaw < 1950 || yearRaw > 2026) { shakeInput('inputYear', t('errYear')); return; }
 
   const m = sessionMatches[currentIdx];
   const { sResult, sYear, sMatch } = calcMatchScore(m, parsed, yearRaw);

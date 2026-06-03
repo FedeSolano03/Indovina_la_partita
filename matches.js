@@ -188,7 +188,7 @@ const ALL_MATCHES = [
     scoreHome: 1,
     scoreAway: 2,
     year: 2022,
-    image: "https://www.italpress.com/wp-content/uploads/2022/02/giroud_img_220205bis.jpg",
+    image: "https://prd-images2-gazzanet.gazzettaobjects.it/QWwO4fBJfpZTIk-jn-H0_FyuRdI=/712x402/smart/www.pianetamilan.it/assets/uploads/202202/IMG_0977.jpg",
     imageAlt: "Serie A Inter Milan 2022"
   },
     {
