@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indovina il Risultato</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════ HOME ═══════════════════════════ -->
+  <section id="screen-home" class="screen active">
+    <div class="home-bg">
+      <div class="pitch-lines"></div>
+      <div class="stadium-glow"></div>
+      <div class="flares">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="home-content">
+      <div class="home-badge">⚽ FOOTBALL QUIZ</div>
+      <h1 class="home-title">Indovina<br>il Risultato</h1>
+      <p class="home-desc">
+        Sette partite leggendarie ti aspettano.<br>
+        Ricordi il risultato? Ricordi l'anno?<br>
+        Metti alla prova la tua memoria calcistica.
+      </p>
+      <button class="btn-start" onclick="startGame()">
+        <span>Inizia Partita</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <div class="home-stats">
+        <div class="stat"><span class="stat-n">7</span><span class="stat-l">Partite</span></div>
+        <div class="stat"><span class="stat-n">700</span><span class="stat-l">Punti Max</span></div>
+        <div class="stat"><span class="stat-n">🥇</span><span class="stat-l">Medaglie</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ GAME ═══════════════════════════ -->
+  <section id="screen-game" class="screen">
+    <div class="game-header">
+      <button class="btn-home-icon" onclick="goHome()">⌂</button>
+      <div class="game-progress">
+        <div class="progress-dots" id="progressDots"></div>
+        <span class="game-round" id="roundLabel">Partita 1 / 7</span>
+      </div>
+      <div class="total-score-badge">
+        <span id="totalScoreDisplay">0</span> pt
+      </div>
+    </div>
+
+    <div class="game-body">
+      <div class="match-card" id="matchCard">
+        <div class="match-image-wrap">
+          <img id="matchImg" src="" alt="Partita" />
+          <div class="match-image-overlay"></div>
+          <div class="match-teams-overlay">
+            <span id="teamHome" class="team-name home-team">—</span>
+            <div class="vs-badge">VS</div>
+            <span id="teamAway" class="team-name away-team">—</span>
+          </div>
+          <div class="competition-tag" id="competitionTag">—</div>
+        </div>
+
+        <div class="match-input-panel" id="inputPanel">
+          <p class="input-hint">Qual era il risultato finale e l'anno?</p>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Risultato</label>
+              <input type="text" id="inputScore" placeholder="es. 2-1" maxlength="7" />
+            </div>
+            <div class="input-group">
+              <label>Anno</label>
+              <input type="number" id="inputYear" placeholder="es. 2012" min="1960" max="2025" />
+            </div>
+          </div>
+          <button class="btn-submit" onclick="submitGuess()">Invia Risultato</button>
+        </div>
+
+        <div class="match-result-panel hidden" id="resultPanel">
+          <div class="result-reveal">
+            <div class="result-correct">
+              <span class="result-label">Risultato reale</span>
+              <span class="result-value" id="realScore">—</span>
+            </div>
+            <div class="result-correct">
+              <span class="result-label">Anno reale</span>
+              <span class="result-value" id="realYear">—</span>
+            </div>
+          </div>
+          <div class="score-breakdown">
+            <div class="score-pill score-result">
+              <span class="pill-label">Risultato</span>
+              <span class="pill-val" id="scoreResult">0</span>
+            </div>
+            <div class="score-pill score-year">
+              <span class="pill-label">Anno</span>
+              <span class="pill-val" id="scoreYear">0</span>
+            </div>
+            <div class="score-pill score-total">
+              <span class="pill-label">Totale</span>
+              <span class="pill-val" id="scoreMatch">0</span>
+            </div>
+          </div>
+          <button class="btn-continue" onclick="nextMatch()">
+            Continua <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ FINALE ════════════════════════ -->
+  <section id="screen-final" class="screen">
+    <div class="final-bg"></div>
+    <div class="final-content">
+      <h2 class="final-title">Partita Finita!</h2>
+
+      <div class="medal-display" id="medalDisplay">
+        <div class="medal-icon" id="medalIcon">🥇</div>
+        <div class="medal-name" id="medalName">Oro</div>
+        <div class="medal-desc" id="medalDesc">Sei un fenomeno!</div>
+      </div>
+
+      <div class="final-score-total">
+        Punteggio totale: <strong id="finalTotalScore">0</strong> / 700
+      </div>
+
+      <div class="chart-container">
+        <canvas id="scoreChart"></canvas>
+      </div>
+
+      <button class="btn-home-final" onclick="goHome()">⌂ Torna alla Home</button>
+    </div>
+  </section>
+
+  <script src="game.js"></script>
+</body>
+</html>

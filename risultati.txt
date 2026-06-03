@@ -1,0 +1,122 @@
+const ALL_MATCHES = [
+  {
+    homeTeam: "Italia",
+    awayTeam: "Brasile",
+    competition: "Mondiali",
+    scoreHome: 3,
+    scoreAway: 2,
+    year: 1982,
+    image: "https://www.repstatic.it/content/nazionale/img/2022/07/03/170513168-b587ce33-3eb1-4248-b827-f8557528a25f.jpg",
+    imageAlt: "Mondiali 1982 Italia vs Brasile"
+  },
+  {
+    homeTeam: "Barcellona",
+    awayTeam: "Manchester Utd",
+    competition: "Champions League",
+    scoreHome: 3,
+    scoreAway: 1,
+    year: 2011,
+    image: "https://radiogoal24.it/wp-content/uploads/2017/04/article-1391944-0C508CDC00000578-614_634x350.jpg",
+    imageAlt: "Champions League Final 2011"
+  },
+  {
+    homeTeam: "Portogallo",
+    awayTeam: "Francia",
+    competition: "Euro 2016",
+    scoreHome: 1,
+    scoreAway: 0,
+    year: 2016,
+    image: "https://editorial.uefa.com/resources/0253-0d7ad4117dbc-e8c18bbf8ec5-1000/portugal_v_france_-_uefa_euro_2016_final.jpeg",
+    imageAlt: "Euro 2016 Final"
+  },
+  {
+    homeTeam: "Real Madrid",
+    awayTeam: "Atletico Madrid",
+    competition: "Champions League",
+    scoreHome: 4,
+    scoreAway: 1,
+    year: 2014,
+    image: "https://assets.goal.com/images/v3/blte1a21a79c621a0bc/24a447936833e17ccd33fc1054ce7c6cad47dccc.jpg",
+    imageAlt: "Champions League Final 2014"
+  },
+  {
+    homeTeam: "Germania",
+    awayTeam: "Brasile",
+    competition: "Mondiali – semifinale",
+    scoreHome: 7,
+    scoreAway: 1,
+    year: 2014,
+    image: "https://staticfanpage.akamaized.net/wp-content/uploads/sites/9/2018/03/brasile-germania-1-7-rivincita.jpg",
+    imageAlt: "Germania vs Brasile 7-1 Mondiale 2014"
+  },
+  {
+    homeTeam: "Liverpool",
+    awayTeam: "AC Milan",
+    competition: "Champions League",
+    scoreHome: 3,
+    scoreAway: 3,
+    year: 2005,
+    image: "https://storiedicalcio.altervista.org/blog/wp-content/uploads/2016/12/milan-liverpool-2005-maldini-wp.jpg",
+    imageAlt: "Champions League Final Istanbul 2005"
+  },
+  {
+    homeTeam: "Argentina",
+    awayTeam: "Francia",
+    competition: "Mondiale – Finale",
+    scoreHome: 3,
+    scoreAway: 3,
+    year: 2022,
+    image: "https://staticfanpage.akamaized.net/wp-content/uploads/sites/27/2023/02/kolo-muani-gola-errore-mondiali-martinez-1200x675.jpg",
+    imageAlt: "Finale Mondiale 2022 Argentina vs Francia"
+  },
+  {
+    homeTeam: "Juventus",
+    awayTeam: "Ajax",
+    competition: "Champions League",
+    scoreHome: 1,
+    scoreAway: 2,
+    year: 2019,
+    image: "https://ichef.bbci.co.uk/ace/standard/624/cpsprodpb/E748/production/_106480295_deligt_getty.jpg",
+    imageAlt: "Stadio Champions League"
+  },
+  {
+    homeTeam: "Bayern Monaco",
+    awayTeam: "Borussia Dortmund",
+    competition: "Champions League",
+    scoreHome: 2,
+    scoreAway: 1,
+    year: 2013,
+    image: "https://i.pinimg.com/736x/30/57/28/3057289c3c3ea665f62b84b29ac61090.jpg",
+    imageAlt: "Champions League 2013 Bayern vs Dortmund"
+  },
+  {
+    homeTeam: "Francia",
+    awayTeam: "Brasile",
+    competition: "Mondiale – Finale",
+    scoreHome: 3,
+    scoreAway: 0,
+    year: 1998,
+    image: "https://staticfanpage.akamaized.net/calciofanpage/wp-content/uploads/2011/02/Francia-Brasile.jpg",
+    imageAlt: "Mondiale 1998 finale"
+  },
+  {
+    homeTeam: "Manchester City",
+    awayTeam: "Inter",
+    competition: "Champions League",
+    scoreHome: 1,
+    scoreAway: 0,
+    year: 2023,
+    image: "https://lavoce.hr/wp-content/uploads/2023/06/000_33j29av.jpeg",
+    imageAlt: "Champions League 2023 Manchester City vs Inter"
+  },
+  {
+    homeTeam: "Paris Saint-Germain",
+    awayTeam: "Inter",
+    competition: "Champions League",
+    scoreHome: 5,
+    scoreAway: 0,
+    year: 2025,
+    image: "https://citynews-today.stgy.ovh/~media/original-hi/11066392943288/psg-inter-lapresse-2.jpg",
+    imageAlt: "Champions League 2025 Psg-Inter"
+  },
+];
