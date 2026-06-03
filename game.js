@@ -1,132 +1,8 @@
 /* ═══════════════════════════════════════════════════════════
-   INDOVINA IL RISULTATO — game.js
+   GAME.JS — Logica di gioco
+   Il database partite è in matches.js
    ═══════════════════════════════════════════════════════════ */
 
-/* ─── PARTITE DATABASE ─── */
-const ALL_MATCHES = [
-  {
-    homeTeam: "Italia",
-    awayTeam: "Brasile",
-    competition: "Mondiali",
-    scoreHome: 3,
-    scoreAway: 2,
-    year: 1982,
-    image: "https://www.repstatic.it/content/nazionale/img/2022/07/03/170513168-b587ce33-3eb1-4248-b827-f8557528a25f.jpg",
-    imageAlt: "Mondiali 1982 Italia vs Brasile"
-  },
-  {
-    homeTeam: "Barcellona",
-    awayTeam: "Manchester Utd",
-    competition: "Champions League",
-    scoreHome: 3,
-    scoreAway: 1,
-    year: 2011,
-    image: "https://radiogoal24.it/wp-content/uploads/2017/04/article-1391944-0C508CDC00000578-614_634x350.jpg",
-    imageAlt: "Champions League Final 2011"
-  },
-  {
-    homeTeam: "Portogallo",
-    awayTeam: "Francia",
-    competition: "Euro 2016",
-    scoreHome: 1,
-    scoreAway: 0,
-    year: 2016,
-    image: "https://editorial.uefa.com/resources/0253-0d7ad4117dbc-e8c18bbf8ec5-1000/portugal_v_france_-_uefa_euro_2016_final.jpeg",
-    imageAlt: "Euro 2016 Final"
-  },
-  {
-    homeTeam: "Real Madrid",
-    awayTeam: "Atletico Madrid",
-    competition: "Champions League",
-    scoreHome: 4,
-    scoreAway: 1,
-    year: 2014,
-    image: "https://assets.goal.com/images/v3/blte1a21a79c621a0bc/24a447936833e17ccd33fc1054ce7c6cad47dccc.jpg",
-    imageAlt: "Champions League Final 2014"
-  },
-  {
-    homeTeam: "Germania",
-    awayTeam: "Brasile",
-    competition: "Mondiali – semifinale",
-    scoreHome: 7,
-    scoreAway: 1,
-    year: 2014,
-    image: "https://staticfanpage.akamaized.net/wp-content/uploads/sites/9/2018/03/brasile-germania-1-7-rivincita.jpg",
-    imageAlt: "Germania vs Brasile 7-1 Mondiale 2014"
-  },
-  {
-    homeTeam: "Liverpool",
-    awayTeam: "AC Milan",
-    competition: "Champions League",
-    scoreHome: 3,
-    scoreAway: 3,
-    year: 2005,
-    image: "https://storiedicalcio.altervista.org/blog/wp-content/uploads/2016/12/milan-liverpool-2005-maldini-wp.jpg",
-    imageAlt: "Champions League Final Istanbul 2005"
-  },
-  {
-    homeTeam: "Argentina",
-    awayTeam: "Francia",
-    competition: "Mondiale – Finale",
-    scoreHome: 3,
-    scoreAway: 3,
-    year: 2022,
-    image: "https://staticfanpage.akamaized.net/wp-content/uploads/sites/27/2023/02/kolo-muani-gola-errore-mondiali-martinez-1200x675.jpg",
-    imageAlt: "Finale Mondiale 2022 Argentina vs Francia"
-  },
-  {
-    homeTeam: "Juventus",
-    awayTeam: "Ajax",
-    competition: "Champions League",
-    scoreHome: 1,
-    scoreAway: 2,
-    year: 2019,
-    image: "https://ichef.bbci.co.uk/ace/standard/624/cpsprodpb/E748/production/_106480295_deligt_getty.jpg",
-    imageAlt: "Stadio Champions League"
-  },
-  {
-    homeTeam: "Bayern Monaco",
-    awayTeam: "Borussia Dortmund",
-    competition: "Champions League",
-    scoreHome: 2,
-    scoreAway: 1,
-    year: 2013,
-    image: "https://i.pinimg.com/736x/30/57/28/3057289c3c3ea665f62b84b29ac61090.jpg",
-    imageAlt: "Champions League 2013 Bayern vs Dortmund"
-  },
-  {
-    homeTeam: "Francia",
-    awayTeam: "Brasile",
-    competition: "Mondiale – Finale",
-    scoreHome: 3,
-    scoreAway: 0,
-    year: 1998,
-    image: "https://staticfanpage.akamaized.net/calciofanpage/wp-content/uploads/2011/02/Francia-Brasile.jpg",
-    imageAlt: "Mondiale 1998 finale"
-  },
-  {
-    homeTeam: "Manchester City",
-    awayTeam: "Inter",
-    competition: "Champions League",
-    scoreHome: 1,
-    scoreAway: 0,
-    year: 2023,
-    image: "https://lavoce.hr/wp-content/uploads/2023/06/000_33j29av.jpeg",
-    imageAlt: "Champions League 2023 Manchester City vs Inter"
-  },
-  {
-    homeTeam: "Paris Saint-Germain",
-    awayTeam: "Inter",
-    competition: "Champions League",
-    scoreHome: 5,
-    scoreAway: 0,
-    year: 2025,
-    image: "https://citynews-today.stgy.ovh/~media/original-hi/11066392943288/psg-inter-lapresse-2.jpg",
-    imageAlt: "Champions League 2025 Psg-Inter"
-  },
-];
-
-/* ─── FALLBACK IMAGES (Unsplash/Pexels – no copyright) ─── */
 const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80",
   "https://images.unsplash.com/photo-1551958219-acbc6d1ead01?w=800&q=80",
@@ -137,12 +13,20 @@ const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1607627000458-210e8d2bdb1d?w=800&q=80",
 ];
 
+const TOTAL_ROUNDS  = 5;
+const MAX_SCORE     = TOTAL_ROUNDS * 100; // 500
+const TIMER_SECONDS = 15;
+
 /* ─── STATE ─── */
 let sessionMatches = [];
-let currentIdx = 0;
-let scores = [];
-let totalScore = 0;
-let chartInstance = null;
+let currentIdx     = 0;
+let scores         = [];
+let totalScore     = 0;
+let chartInstance  = null;
+
+/* ─── TIMER ─── */
+let timerInterval  = null;
+let timerLeft      = TIMER_SECONDS;
 
 /* ─── SHUFFLE ─── */
 function shuffle(arr) {
@@ -157,21 +41,21 @@ function shuffle(arr) {
 /* ─── SCREEN NAVIGATION ─── */
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const target = document.getElementById(id);
-  target.classList.add('active');
+  document.getElementById(id).classList.add('active');
   window.scrollTo(0, 0);
 }
 
 function goHome() {
+  stopTimer();
   showScreen('screen-home');
 }
 
 /* ─── START GAME ─── */
 function startGame() {
-  sessionMatches = shuffle(ALL_MATCHES).slice(0, 7);
-  currentIdx = 0;
-  scores = [];
-  totalScore = 0;
+  sessionMatches = shuffle(ALL_MATCHES).slice(0, TOTAL_ROUNDS);
+  currentIdx  = 0;
+  scores      = [];
+  totalScore  = 0;
 
   updateTotalDisplay();
   buildProgressDots();
@@ -182,7 +66,7 @@ function startGame() {
 function buildProgressDots() {
   const container = document.getElementById('progressDots');
   container.innerHTML = '';
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < TOTAL_ROUNDS; i++) {
     const d = document.createElement('div');
     d.className = 'dot' + (i === 0 ? ' active' : '');
     d.id = 'dot-' + i;
@@ -191,10 +75,10 @@ function buildProgressDots() {
 }
 
 function updateDots(idx) {
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < TOTAL_ROUNDS; i++) {
     const d = document.getElementById('dot-' + i);
     d.className = 'dot';
-    if (i < idx)  d.classList.add('done');
+    if (i < idx)   d.classList.add('done');
     if (i === idx) d.classList.add('active');
   }
 }
@@ -203,44 +87,96 @@ function updateTotalDisplay() {
   document.getElementById('totalScoreDisplay').textContent = Math.round(totalScore);
 }
 
+/* ─── TIMER ─── */
+function startTimer() {
+  stopTimer();
+  timerLeft = TIMER_SECONDS;
+  updateTimerUI();
+
+  timerInterval = setInterval(() => {
+    timerLeft--;
+    updateTimerUI();
+
+    if (timerLeft <= 0) {
+      stopTimer();
+      timeUp();
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+}
+
+function updateTimerUI() {
+  const fill  = document.getElementById('timerFill');
+  const label = document.getElementById('timerLabel');
+  if (!fill || !label) return;
+
+  const pct = (timerLeft / TIMER_SECONDS) * 100;
+  fill.style.width = pct + '%';
+
+  label.textContent = timerLeft + 's';
+
+  // Colori progressivi
+  const level = timerLeft <= 5 ? 'danger' : timerLeft <= 10 ? 'warning' : '';
+  fill.className  = 'timer-bar-fill'  + (level ? ' timer-' + level : '');
+  label.className = 'timer-label'     + (level ? ' timer-' + level : '');
+}
+
+function timeUp() {
+  // Forza 0 punti e mostra pannello risultati
+  const m = sessionMatches[currentIdx];
+  scores.push(0);
+  // non aggiungere a totalScore
+
+  document.getElementById('userScoreDisplay').textContent = '—';
+  document.getElementById('userYearDisplay').textContent  = '—';
+  document.getElementById('realScore').textContent        = `${m.scoreHome}-${m.scoreAway}`;
+  document.getElementById('realYear').textContent         = m.year;
+  document.getElementById('scoreResult').textContent      = 0;
+  document.getElementById('scoreYear').textContent        = 0;
+
+  const scoreVal = document.getElementById('scoreMatch');
+  scoreVal.textContent = 0;
+  scoreVal.className   = 'rp-score-val score-poor';
+
+  stopTimer();
+  document.getElementById('inputPanel').classList.add('hidden');
+  document.getElementById('resultPanel').classList.remove('hidden');
+}
+
 /* ─── LOAD MATCH ─── */
 function loadMatch(idx) {
   const m = sessionMatches[idx];
 
-  // reset panels
   document.getElementById('inputPanel').classList.remove('hidden');
   document.getElementById('resultPanel').classList.add('hidden');
   document.getElementById('inputScore').value = '';
-  document.getElementById('inputYear').value = '';
+  document.getElementById('inputYear').value  = '';
 
-  // labels
-  document.getElementById('roundLabel').textContent = `Partita ${idx + 1} / 7`;
-  document.getElementById('teamHome').textContent = m.homeTeam;
-  document.getElementById('teamAway').textContent = m.awayTeam;
-  document.getElementById('competitionTag').textContent = m.competition;
+  document.getElementById('roundLabel').textContent     = t('roundLabel', idx + 1, TOTAL_ROUNDS);
+  document.getElementById('teamHome').textContent        = m.homeTeam;
+  document.getElementById('teamAway').textContent        = m.awayTeam;
+  document.getElementById('competitionTag').textContent  = m.competition;
 
-  // image with fallback
   const img = document.getElementById('matchImg');
   img.src = '';
-  const tryLoad = (src, fallbackIdx) => {
-    const test = new Image();
-    test.onload = () => { img.src = src; };
-    test.onerror = () => {
-      if (fallbackIdx < FALLBACK_IMAGES.length) {
-        tryLoad(FALLBACK_IMAGES[fallbackIdx], fallbackIdx + 1);
-      }
-    };
-    test.src = src;
+  const tryLoad = (src, fi) => {
+    const t = new Image();
+    t.onload  = () => { img.src = src; };
+    t.onerror = () => { if (fi < FALLBACK_IMAGES.length) tryLoad(FALLBACK_IMAGES[fi], fi + 1); };
+    t.src = src;
   };
   tryLoad(m.image, 0);
 
-  // re-animate card
   const card = document.getElementById('matchCard');
   card.style.animation = 'none';
-  card.offsetHeight; // reflow
+  card.offsetHeight;
   card.style.animation = '';
 
   updateDots(idx);
+  startTimer();
   document.getElementById('inputScore').focus();
 }
 
@@ -255,17 +191,10 @@ function parseScore(str) {
 }
 
 function calcMatchScore(m, userScore, userYear) {
-  // result score
-  const diffHome = Math.abs(m.scoreHome - userScore[0]);
-  const diffAway = Math.abs(m.scoreAway - userScore[1]);
-  const errTotal = diffHome + diffAway;
-  const sResult = Math.max(0, 100 - errTotal * 20);
-
-  // year score
-  const diffYear = Math.abs(m.year - userYear);
-  const sYear = Math.max(0, 100 - diffYear * 5);
-
-  const sMatch = (sResult + sYear) / 2;
+  const errTotal = Math.abs(m.scoreHome - userScore[0]) + Math.abs(m.scoreAway - userScore[1]);
+  const sResult  = Math.max(0, 100 - errTotal * 20);
+  const sYear    = Math.max(0, 100 - Math.abs(m.year - userYear) * 5);
+  const sMatch   = (sResult + sYear) / 2;
   return { sResult, sYear, sMatch };
 }
 
@@ -274,55 +203,58 @@ function submitGuess() {
   const scoreRaw = document.getElementById('inputScore').value;
   const yearRaw  = parseInt(document.getElementById('inputYear').value);
 
-  // Validation
   const parsed = parseScore(scoreRaw);
-  if (!parsed) {
-    shakeInput('inputScore', 'Formato non valido — usa es. 2-1');
-    return;
-  }
-  if (isNaN(yearRaw) || yearRaw < 1950 || yearRaw > 2025) {
-    shakeInput('inputYear', 'Anno non valido');
-    return;
-  }
+  if (!parsed) { shakeInput('inputScore', t('errScore')); return; }
+  if (isNaN(yearRaw) || yearRaw < 1950 || yearRaw > 2025) { shakeInput('inputYear', t('errYear')); return; }
 
   const m = sessionMatches[currentIdx];
   const { sResult, sYear, sMatch } = calcMatchScore(m, parsed, yearRaw);
 
   scores.push(Math.round(sMatch));
   totalScore += sMatch;
-
   updateTotalDisplay();
 
-  // Show results
-  document.getElementById('realScore').textContent = `${m.scoreHome} - ${m.scoreAway}`;
-  document.getElementById('realYear').textContent = m.year;
-  document.getElementById('scoreResult').textContent = Math.round(sResult);
-  document.getElementById('scoreYear').textContent = Math.round(sYear);
-  document.getElementById('scoreMatch').textContent = Math.round(sMatch);
+  document.getElementById('userScoreDisplay').textContent = `${parsed[0]}-${parsed[1]}`;
+  document.getElementById('userYearDisplay').textContent  = yearRaw;
+  document.getElementById('realScore').textContent        = `${m.scoreHome}-${m.scoreAway}`;
+  document.getElementById('realYear').textContent         = m.year;
+  document.getElementById('scoreResult').textContent      = Math.round(sResult);
+  document.getElementById('scoreYear').textContent        = Math.round(sYear);
 
+  const scoreVal = document.getElementById('scoreMatch');
+  const matchRounded = Math.round(sMatch);
+  scoreVal.textContent = matchRounded;
+  scoreVal.className   = 'rp-score-val ' + (sMatch >= 75 ? 'score-great' : sMatch >= 45 ? 'score-ok' : 'score-poor');
+
+  if (matchRounded === 100) {
+    setTimeout(triggerPerfect, 300);
+  }
+
+  stopTimer();
   document.getElementById('inputPanel').classList.add('hidden');
   document.getElementById('resultPanel').classList.remove('hidden');
 }
 
+/* ─── SHAKE INPUT ─── */
 function shakeInput(id, msg) {
   const el = document.getElementById(id);
   const original = el.getAttribute('data-orig-ph') || el.placeholder;
   el.setAttribute('data-orig-ph', original);
   el.style.borderColor = '#ff4757';
-  el.style.animation = 'shake 0.4s ease';
-  el.value = '';
-  el.placeholder = msg;
+  el.style.animation   = 'shake 0.4s ease';
+  el.value             = '';
+  el.placeholder       = msg;
   setTimeout(() => {
     el.style.borderColor = '';
-    el.style.animation = '';
-    el.placeholder = original;
+    el.style.animation   = '';
+    el.placeholder       = original;
   }, 2000);
 }
 
 /* ─── NEXT MATCH ─── */
 function nextMatch() {
   currentIdx++;
-  if (currentIdx >= 7) {
+  if (currentIdx >= TOTAL_ROUNDS) {
     showFinal();
   } else {
     loadMatch(currentIdx);
@@ -333,9 +265,9 @@ function nextMatch() {
 function showFinal() {
   showScreen('screen-final');
 
-  // Medal
   const total = Math.round(totalScore);
   document.getElementById('finalTotalScore').textContent = total;
+  document.getElementById('finalMaxScore').textContent   = MAX_SCORE;
 
   const medalDisplay = document.getElementById('medalDisplay');
   const medalIcon    = document.getElementById('medalIcon');
@@ -344,58 +276,47 @@ function showFinal() {
 
   medalDisplay.className = 'medal-display';
 
-  if (total >= 550) {
+  // Soglie scalate su 500 (era 700)
+  if (total >= 390) {
     medalDisplay.classList.add('medal-gold');
     medalIcon.textContent = '🥇';
-    medalName.textContent = 'ORO';
-    medalDesc.textContent = 'Sei una leggenda del calcio!';
-  } else if (total >= 400) {
+    medalName.textContent = t('gold');
+    medalDesc.textContent = t('descGold');
+  } else if (total >= 280) {
     medalDisplay.classList.add('medal-silver');
     medalIcon.textContent = '🥈';
-    medalName.textContent = 'ARGENTO';
-    medalDesc.textContent = 'Ottima memoria calcistica!';
-  } else if (total >= 250) {
+    medalName.textContent = t('silver');
+    medalDesc.textContent = t('descSilver');
+  } else if (total >= 175) {
     medalDisplay.classList.add('medal-bronze');
     medalIcon.textContent = '🥉';
-    medalName.textContent = 'BRONZO';
-    medalDesc.textContent = 'Buon risultato, continua ad allenarti!';
+    medalName.textContent = t('bronze');
+    medalDesc.textContent = t('descBronze');
   } else {
     medalDisplay.classList.add('medal-none');
     medalIcon.textContent = '⚽';
-    medalName.textContent = 'NESSUNA MEDAGLIA';
-    medalDesc.textContent = 'Ritenta, ci vorrà più fortuna!';
+    medalName.textContent = t('none');
+    medalDesc.textContent = t('descNone');
   }
 
-  // Chart
   renderChart();
 }
 
+/* ─── CHART ─── */
 function renderChart() {
   if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
 
-  const labels = scores.map((_, i) => `Partita ${i + 1}`);
   const ctx = document.getElementById('scoreChart').getContext('2d');
-
   chartInstance = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels,
+      labels: scores.map((_, i) => t('chartLabel', i + 1)),
       datasets: [{
         label: 'Punti',
         data: scores,
-        backgroundColor: scores.map(s =>
-          s >= 75 ? 'rgba(46,204,113,0.75)' :
-          s >= 45 ? 'rgba(0,212,255,0.65)' :
-                    'rgba(255,107,53,0.65)'
-        ),
-        borderColor: scores.map(s =>
-          s >= 75 ? '#2ecc71' :
-          s >= 45 ? '#00d4ff' :
-                    '#ff6b35'
-        ),
-        borderWidth: 2,
-        borderRadius: 8,
-        borderSkipped: false,
+        backgroundColor: scores.map(s => s >= 75 ? 'rgba(46,204,113,0.75)' : s >= 45 ? 'rgba(0,212,255,0.65)' : 'rgba(255,107,53,0.65)'),
+        borderColor:     scores.map(s => s >= 75 ? '#2ecc71' : s >= 45 ? '#00d4ff' : '#ff6b35'),
+        borderWidth: 2, borderRadius: 8, borderSkipped: false,
       }]
     },
     options: {
@@ -403,8 +324,7 @@ function renderChart() {
       maintainAspectRatio: false,
       animation: { duration: 1000, easing: 'easeOutQuart' },
       scales: {
-        y: {
-          min: 0, max: 100,
+        y: { min: 0, max: 100,
           ticks: { color: 'rgba(255,255,255,0.5)', font: { family: 'Barlow', size: 12 } },
           grid:  { color: 'rgba(255,255,255,0.06)' }
         },
@@ -417,20 +337,51 @@ function renderChart() {
         legend: { display: false },
         tooltip: {
           backgroundColor: '#161b22',
-          borderColor: 'rgba(255,255,255,0.1)',
-          borderWidth: 1,
-          titleColor: '#fff',
-          bodyColor: 'rgba(255,255,255,0.6)',
-          callbacks: {
-            label: ctx => ` ${ctx.parsed.y} / 100 punti`
-          }
+          borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1,
+          titleColor: '#fff', bodyColor: 'rgba(255,255,255,0.6)',
+          callbacks: { label: ctx => t('chartTooltip', ctx.parsed.y) }
         }
       }
     }
   });
 }
 
-/* ─── CSS SHAKE ANIMATION (injected) ─── */
+/* ─── PERFECT SCORE ANIMATION — PALLONE IN GOL ─── */
+function triggerPerfect() {
+  // Wrapper
+  const wrap = document.createElement('div');
+  wrap.className = 'goal-wrap';
+
+  // Pallone SVG
+  wrap.innerHTML = `
+    <div class="goal-ball">
+      <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="22" cy="22" r="21" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
+        <polygon points="22,8 27,14 27,21 22,25 17,21 17,14" fill="#222"/>
+        <polygon points="34,18 39,14 42,20 39,27 34,24" fill="#222"/>
+        <polygon points="10,18 5,14 2,20 5,27 10,24" fill="#222"/>
+        <polygon points="28,32 33,28 36,34 31,38 25,36" fill="#222"/>
+        <polygon points="16,32 11,28 8,34 13,38 19,36" fill="#222"/>
+      </svg>
+    </div>
+    <div class="goal-net"></div>
+    <div class="goal-text">GOL!</div>
+  `;
+
+  document.body.appendChild(wrap);
+
+  // Flash sul numero
+  const scoreEl = document.getElementById('scoreMatch');
+  scoreEl.classList.add('perfect-flash');
+
+  // Rimuovi tutto dopo l'animazione
+  setTimeout(() => {
+    wrap.remove();
+    scoreEl.classList.remove('perfect-flash');
+  }, 3200);
+}
+
+/* ─── SHAKE ANIMATION ─── */
 const shakeStyle = document.createElement('style');
 shakeStyle.textContent = `
 @keyframes shake {
@@ -439,17 +390,12 @@ shakeStyle.textContent = `
   40%{transform:translateX(8px)}
   60%{transform:translateX(-5px)}
   80%{transform:translateX(5px)}
-}
-`;
+}`;
 document.head.appendChild(shakeStyle);
 
-/* ─── ENTER KEY SUPPORT ─── */
+/* ─── ENTER KEY ─── */
 document.addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    if (!document.getElementById('inputPanel').classList.contains('hidden')) {
-      submitGuess();
-    } else if (!document.getElementById('resultPanel').classList.contains('hidden')) {
-      nextMatch();
-    }
-  }
+  if (e.key !== 'Enter') return;
+  if (!document.getElementById('inputPanel').classList.contains('hidden'))   submitGuess();
+  else if (!document.getElementById('resultPanel').classList.contains('hidden')) nextMatch();
 });
