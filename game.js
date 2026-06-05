@@ -15,7 +15,7 @@ const FALLBACK_IMAGES = [
 
 const TOTAL_ROUNDS  = 5;
 const MAX_SCORE     = TOTAL_ROUNDS * 100; // 500
-const TIMER_SECONDS = 15;
+const TIMER_SECONDS = 45;
 
 /* ─── STATE ─── */
 let sessionMatches = [];
@@ -191,10 +191,31 @@ function parseScore(str) {
 }
 
 function calcMatchScore(m, userScore, userYear) {
-  const errTotal = Math.abs(m.scoreHome - userScore[0]) + Math.abs(m.scoreAway - userScore[1]);
-  const sResult  = Math.max(0, 100 - errTotal * 20);
-  const sYear    = Math.max(0, 100 - Math.abs(m.year - userYear) * 5);
-  const sMatch   = (sResult + sYear) / 2;
+  // ─── ESITO (V/P/S) ───
+  const realOutcome = m.scoreHome > m.scoreAway ? 1 : m.scoreHome < m.scoreAway ? -1 : 0;
+  const userOutcome = userScore[0] > userScore[1] ? 1 : userScore[0] < userScore[1] ? -1 : 0;
+  const P_esito = realOutcome === userOutcome ? 1 : 0.1;
+
+  // ─── DIFFERENZA RETI ───
+  const realDiff = Math.abs(m.scoreHome - m.scoreAway);
+  const userDiff = Math.abs(userScore[0] - userScore[1]);
+  const P_diff   = Math.max(0, 1 - Math.abs(realDiff - userDiff) / Math.max(realDiff, 1));
+
+  // ─── GOAL ASSOLUTI ───
+  const errCasa  = Math.abs(m.scoreHome - userScore[0]);
+  const errFuori = Math.abs(m.scoreAway - userScore[1]);
+  const totaleReale = m.scoreHome + m.scoreAway + 1;
+  const P_goal   = Math.max(0, 1 - (errCasa + errFuori) / totaleReale);
+
+  // ─── PUNTEGGIO RISULTATO (0-100) ───
+  const sResult = (P_esito * 0.30 + P_diff * 0.25 + P_goal * 0.45) * 100;
+
+  // ─── ANNO (invariato) ───
+  const sYear  = Math.max(0, 100 - Math.abs(m.year - userYear) * 5);
+
+  // ─── PUNTEGGIO FINALE ───
+  const sMatch = (sResult + sYear) / 2;
+
   return { sResult, sYear, sMatch };
 }
 
